@@ -15,6 +15,9 @@ fi
 echo "✅ Python环境检查通过"
 echo ""
 
+# 切换到脚本所在目录
+cd "$(dirname "$0")"
+
 # 步骤1: 运行所有实验
 echo "=========================================="
 echo "步骤 1/2: 运行所有5类实验"
@@ -62,12 +65,11 @@ echo "✅ Quick Start 完成！"
 echo "=========================================="
 echo ""
 echo "查看结果:"
-echo "  - 实验数据: experiments/*/results.json"
-echo "  - 可视化图: experiments/*/plot.png"
-echo "  - 完整文档: docs/飞书文档_五类实验完整版.md"
+echo "  - 实验数据: ../experiments/*/results.json"
+echo "  - 可视化图: ../experiments/*/plot.png"
+echo "  - 完整文档: ../docs/飞书文档_五类实验完整版.md"
 echo ""
 echo "单独运行某个实验:"
 echo "  python3 run_experiment.py --class 1  # 只运行类1"
 echo "  python3 run_experiment.py --class 2  # 只运行类2"
 echo ""
-

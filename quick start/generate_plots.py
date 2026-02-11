@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(SCRIPT_DIR)  # 上一级目录是项目根目录
 
 
 def plot_experiment(exp_dir, title):
@@ -148,4 +149,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

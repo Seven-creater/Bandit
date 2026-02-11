@@ -27,9 +27,10 @@ bandit_study/
 ├── strategy_a_no_code/               # 策略A：无代码LLM推理
 ├── strategy_b_with_interpreter/      # 策略B：代码解释器+UCB
 ├── utils/                            # 工具模块
-├── run_experiment.py                 # 统一实验运行脚本
-├── generate_plots.py                 # 可视化生成脚本
-└── quick_start.sh                    # 一键运行脚本
+└── quick start/                      # 运行脚本
+    ├── run_experiment.py             # 统一实验运行脚本
+    ├── generate_plots.py             # 可视化生成脚本
+    └── quick_start.sh                # 一键运行脚本
 ```
 
 ## 快速开始
@@ -37,13 +38,20 @@ bandit_study/
 ### 方式1: 一键运行（推荐）
 
 ```bash
-# 运行所有实验并生成可视化
+cd "quick start"
 ./quick_start.sh
 ```
+
+这将自动：
+1. 运行所有5类实验（约10-20分钟）
+2. 生成可视化图片
+3. 保存结果到 `experiments/` 文件夹
 
 ### 方式2: 分步运行
 
 ```bash
+cd "quick start"
+
 # 1. 运行所有实验
 python3 run_experiment.py --class all
 
@@ -54,6 +62,8 @@ python3 generate_plots.py
 ### 方式3: 运行单个实验
 
 ```bash
+cd "quick start"
+
 # 只运行类1（基础老虎机）
 python3 run_experiment.py --class 1
 
@@ -91,21 +101,52 @@ cat docs/飞书文档_五类实验完整版.md
 4. **对抗性老虎机** - 奖励分布周期性切换
 5. **休眠老虎机** - 臂随机不可用
 
-## 技术栈
-
-- **模型**：Qwen2.5-7B-GPTQ-Int4（vLLM部署）
-- **语言**：Python 3.10
-- **依赖**：numpy, matplotlib, openai, httpx
-
 ## 参数说明
 
 ```bash
---class      # 实验类别: 1-5 或 all
+--class      # 实验类别: 1-5 或 all (默认: all)
 --arms       # 臂数量 (默认: 3)
 --rounds     # 每个trial的轮数 (默认: 120)
 --trials     # trial数量 (默认: 10)
 --seed       # 随机种子 (默认: 42)
 --verbose    # 显示详细信息
+--base_url   # API地址 (默认: http://localhost:8000/v1)
+--api_key    # API密钥 (默认: EMPTY)
+--model      # 模型ID (可选，自动检测)
+```
+
+## 技术栈
+
+- **模型**：Qwen2.5-7B-GPTQ-Int4（vLLM部署）
+- **语言**：Python 3.10+
+- **依赖**：numpy, matplotlib, openai, httpx
+
+## 环境要求
+
+```bash
+# Python依赖
+pip install numpy matplotlib openai httpx
+
+# 需要运行vLLM服务
+# 默认地址: http://localhost:8000/v1
+```
+
+## 常见问题
+
+**Q: 如何修改API地址？**
+```bash
+python3 run_experiment.py --base_url http://your-api:8000/v1 --class 1
+```
+
+**Q: 如何加快实验速度？**
+```bash
+# 减少trials和rounds
+python3 run_experiment.py --trials 5 --rounds 60 --class all
+```
+
+**Q: 如何查看详细日志？**
+```bash
+python3 run_experiment.py --verbose --class 1
 ```
 
 ## 引用
@@ -114,6 +155,7 @@ cat docs/飞书文档_五类实验完整版.md
 多臂老虎机变体实验：代码解释器增强策略研究
 实验时间：2026-02-11
 模型：Qwen2.5-7B-GPTQ-Int4
+GitHub: https://github.com/Seven-creater/Bandit
 ```
 
 ## 许可证

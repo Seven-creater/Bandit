@@ -2,7 +2,19 @@
 import numpy as np
 from openai import OpenAI
 from typing import List, Dict, Any
-from bandit_env import BanditEnv, BanditConfig
+import os
+import sys
+
+# 添加当前目录到路径以支持相对导入
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+try:
+    from utils.bandit_env import BanditEnv, BanditConfig
+except ImportError:
+    from bandit_env import BanditEnv, BanditConfig
 
 def get_client_and_model(base_url="http://localhost:8000/v1", api_key="EMPTY", model_override=None):
     client = OpenAI(api_key=api_key, base_url=base_url)

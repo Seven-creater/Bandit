@@ -10,7 +10,8 @@ import argparse
 import numpy as np
 
 # 添加项目根目录到路径
-ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(SCRIPT_DIR)  # 上一级目录是项目根目录
 sys.path.insert(0, ROOT)
 
 from utils.shared import get_client_and_model, make_trials
@@ -289,4 +290,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
