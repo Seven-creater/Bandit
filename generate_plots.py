@@ -1,35 +1,39 @@
+#!/usr/bin/env python3
+"""
+生成所有实验的可视化图片
+"""
+import os
+import sys
 import json
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-import os
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+
 
 def plot_experiment(exp_dir, title):
     """为单个实验生成可视化图片"""
     results_path = os.path.join(exp_dir, "results.json")
     
     if not os.path.exists(results_path):
-        print(f"跳过 {exp_dir}: results.json 不存在")
+        print(f"⚠️  跳过 {os.path.basename(exp_dir)}: results.json 不存在")
         return False
     
     try:
         with open(results_path, "r", encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
-        print(f"跳过 {exp_dir}: JSON解析失败 - {e}")
+        print(f"⚠️  跳过 {os.path.basename(exp_dir)}: JSON解析失败 - {e}")
         return False
     
-    # 兼容两种格式
-    if "A" in data:
-        A = data["A"]
-        B = data["B"]
-    else:
-        A = data["A_no_code"]
-        B = data["B_with_interpreter"]
+    # 提取数据
+    A = data.get("A", data.get("A_no_code", []))
+    B = data.get("B", data.get("B_with_interpreter", []))
     
     if len(A) == 0 or len(B) == 0:
-        print(f"跳过 {exp_dir}: 数据为空")
+        print(f"⚠️  跳过 {os.path.basename(exp_dir)}: 数据为空")
         return False
     
     # 提取累积奖励和后悔
@@ -115,8 +119,9 @@ def plot_experiment(exp_dir, title):
     plt.close()
     return True
 
+
 def main():
-    base_dir = "/root/autodl-tmp/ai_study/bandit_study/experiments"
+    experiments_dir = os.path.join(ROOT, "experiments")
     
     experiments = [
         ("1_basic_bandit", "Class 1: Basic Multi-Armed Bandit"),
@@ -126,16 +131,21 @@ def main():
         ("5_sleeping_bandit", "Class 5: Sleeping Bandit")
     ]
     
-    print("开始生成所有可视化图片...\n")
+    print("="*60)
+    print("开始生成所有可视化图片")
+    print("="*60 + "\n")
     
     success_count = 0
     for exp_name, title in experiments:
-        exp_dir = os.path.join(base_dir, exp_name)
-        print(f"处理 {exp_name}...")
+        exp_dir = os.path.join(experiments_dir, exp_name)
         if plot_experiment(exp_dir, title):
             success_count += 1
     
-    print(f"\n✅ 成功生成 {success_count}/{len(experiments)} 个图片！")
+    print(f"\n{'='*60}")
+    print(f"✅ 成功生成 {success_count}/{len(experiments)} 个图片")
+    print("="*60)
+
 
 if __name__ == "__main__":
     main()
+
