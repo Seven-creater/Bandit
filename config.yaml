@@ -1,0 +1,79 @@
+# 火山云模型配置文件
+# 请在火山云控制台获取你的API Key和模型endpoint
+
+# 火山云API配置
+volcengine:
+  base_url: "https://ark.cn-beijing.volces.com/api/v3"
+  api_key: "32a81aaa-0abe-47a9-807a-835c86311e53"  # 请替换为你的API Key
+
+# 测试模型列表
+models:
+
+  - name: "DeepSeek-V3.2"
+    model_id: "ep-20260226122405-7ntst"  # 请替换为实际的endpoint ID
+    enabled: true
+
+  - name: "Doubao-Seed-2.0-Code"
+    model_id: "ep-20260226143945-5jb6v"  # 请替换为实际的endpoint ID
+    enabled: true
+
+  - name: "Doubao-Seed-2.0-mini"
+    model_id: "ep-20260226152803-5lsmk"  # 请替换为实际的endpoint ID
+    enabled: true
+
+  - name: "Doubao-Seed-2.0-pro"
+    model_id: "ep-20260226152730-xqcrr"  # 请替换为实际的endpoint ID
+    enabled: true
+
+  - name: "Doubao-Seed-2.0-lite"
+    model_id: "ep-20260226122220-z7wjh"  # 请替换为实际的endpoint ID
+    enabled: true
+    
+  - name: "GLM-4.7"
+    model_id: "ep-20260226122629-7m6b6"  # 请替换为实际的endpoint ID
+    enabled: true
+    
+  - name: "Kimi-K2"
+    model_id: "ep-20260226122506-v2vg2"  # 请替换为实际的endpoint ID
+    enabled: true
+
+# 实验参数配置
+experiment:
+  # 每类任务的参数组数
+  n_param_groups: 10
+  
+  # 每组参数重复次数
+  n_repeats: 5
+  
+  # 每次实验的轮数
+  n_rounds: 120
+  
+  # 随机种子
+  seed: 42
+  
+  # Bandit参数范围
+  bandit_params:
+    n_arms_range: [3, 10]      # 臂数量范围
+    mean_low_range: [2.0, 5.0]  # 期望值下界范围
+    mean_high_range: [7.0, 9.0] # 期望值上界范围
+    sigma_range: [0.5, 2.0]     # 噪声标准差范围
+    
+  # 非平稳老虎机参数
+  restless_params:
+    drift_rate_range: [0.03, 0.08]
+    
+  # 对抗性老虎机参数
+  adversarial_params:
+    switch_interval_range: [20, 40]
+    
+  # 休眠老虎机参数
+  sleeping_params:
+    sleep_prob_range: [0.2, 0.4]
+
+# 结果保存路径
+output:
+  base_dir: "results/multi_model_comparison"
+  save_individual_trials: true
+  generate_plots: true
+  generate_report: true
+

@@ -3,8 +3,16 @@ import io
 import math
 import numpy as np
 import contextlib
+import os
 import sys
-sys.path.insert(0, '/root/autodl-tmp/ai_study/bandit_study/utils')
+
+# 添加utils路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+utils_dir = os.path.join(parent_dir, 'utils')
+if utils_dir not in sys.path:
+    sys.path.insert(0, utils_dir)
+
 from shared import calc_curves
 
 class PersistentInterpreter:
